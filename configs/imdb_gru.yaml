@@ -1,0 +1,21 @@
+base: base.yaml
+
+# Needs the IMDB loader in src/softmax_temp/data/imdb.py (currently a stub).
+data:
+  name: imdb
+  augment: false
+model:
+  name: gru
+  embed_dim: 128
+  hidden_dim: 256
+  num_layers: 1
+  dropout: 0.3
+target_acc: 0.85
+train:
+  epochs: 10
+  batch_size: 64
+  warmup_epochs: 0
+optim:
+  name: adamw             # note: lr_mode=compensated == fixed for adaptive optimizers
+  lr: 1.0e-3
+  weight_decay: 1.0e-2

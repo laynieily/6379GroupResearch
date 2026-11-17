@@ -1,0 +1,22 @@
+base: base.yaml
+
+# UNTESTED. Set data.root to your ImageNet directory (train/ and val/ subfolders).
+data:
+  name: imagenet
+  root: /path/to/imagenet
+  download: false
+  val_fraction: 0.02
+model:
+  name: resnet50
+target_acc: 0.60          # (placeholder)
+train:
+  epochs: 90              # (placeholder) full ImageNet is expensive; consider fewer epochs / subset
+  batch_size: 256
+  num_workers: 8
+  amp: true
+optim:
+  lr: 0.1
+  weight_decay: 1.0e-4
+sweep:
+  temperatures: [0.25, 0.5, 1.0, 2.0, 4.0]   # (placeholder) fewer values + 1 seed to fit compute
+  seeds: [0]

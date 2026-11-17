@@ -1,0 +1,18 @@
+base: base.yaml
+
+# Tiny synthetic run to check the pipeline end to end in seconds. No downloads.
+data:
+  name: synthetic
+  n_train: 256
+  n_val: 64
+  n_test: 64
+model:
+  name: resnet18_cifar
+target_acc: 0.5
+train:
+  epochs: 2
+  batch_size: 64
+  num_workers: 0
+  warmup_epochs: 0
+output:
+  dir: results_smoke

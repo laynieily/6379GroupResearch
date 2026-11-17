@@ -1,0 +1,7 @@
+base: base.yaml
+
+data:
+  name: cifar10
+model:
+  name: resnet18_cifar
+target_acc: 0.90

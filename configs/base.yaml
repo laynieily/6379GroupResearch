@@ -1,0 +1,42 @@
+# Shared defaults. Dataset configs inherit this via `base: base.yaml`.
+# NOTE: every value marked (placeholder) is a starting point, not a team decision.
+# Record final choices in docs/decisions.md.
+
+seed: 0
+temperature: 1.0          # T in softmax(logits / T); T=1 is the plain softmax
+lr_mode: fixed            # fixed | compensated (see src/softmax_temp/temp_softmax.py)
+schedule: cosine          # cosine | constant (placeholder)
+target_acc: 0.90          # val accuracy used for "epochs to target" (set per dataset)
+deterministic: false      # true = slower, bit-reproducible cuDNN
+
+train:
+  epochs: 30              # (placeholder)
+  batch_size: 128
+  warmup_epochs: 1
+  amp: false              # bf16 autocast on CUDA
+  grad_clip: null
+  num_workers: 4
+
+optim:
+  name: sgd               # sgd | adamw | adam
+  lr: 0.1                 # base LR; effective LR also depends on lr_mode
+  momentum: 0.9
+  nesterov: true
+  weight_decay: 5.0e-4
+
+data:
+  root: ./data
+  download: true
+  val_fraction: 0.1       # held out from train for curves / epochs-to-target
+  split_seed: 0           # fixed so every run shares the same split
+  augment: true
+
+output:
+  dir: results
+  overwrite: false
+
+# Used by scripts/run_sweep.py. Log-spaced, includes T=1 as the baseline.
+sweep:
+  temperatures: [0.1, 0.25, 0.5, 1.0, 2.0, 4.0, 10.0]   # (placeholder)
+  seeds: [0, 1, 2]
+  lr_modes: [fixed, compensated]
