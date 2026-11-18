@@ -22,13 +22,66 @@ temperature from the effect of step size. See [`docs/decisions.md`](docs/decisio
 
 ## Setup
 
+Requires **Python 3.10+** and git. All commands are run from the repo root.
+
+### 1. Clone
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
+git clone <repo-url>
+cd 6379GroupResearch
+```
+
+### 2. Create the virtual environment (first time only)
+
+```bash
+python -m venv .venv
+```
+
+(On macOS/Linux you may need `python3` instead of `python`.)
+
+### 3. Activate it (every new terminal)
+
+| Shell | Command |
+|---|---|
+| Windows PowerShell | `.venv\Scripts\Activate.ps1` |
+| Windows cmd | `.venv\Scripts\activate.bat` |
+| Windows Git Bash | `source .venv/Scripts/activate` |
+| macOS / Linux | `source .venv/bin/activate` |
+
+Your prompt should now start with `(.venv)`. Run `deactivate` to leave it.
+
+> **PowerShell says "running scripts is disabled"?** Run this once, then activate again:
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
+
+> **VS Code:** `Ctrl+Shift+P` → *Python: Select Interpreter* → pick `.venv`. New terminals
+> will then activate it automatically.
+
+### 4. Install the project and dependencies (first time only)
+
+```bash
+python -m pip install --upgrade pip
 pip install -e ".[dev]"
+```
+
+This installs PyTorch, torchvision, numpy, pandas, pyyaml, matplotlib, and pytest, and installs
+this repo in editable mode so code changes take effect without reinstalling.
+
+> **GPU:** the default `pip install torch` may give you a CPU-only build on Windows. For CUDA,
+> install torch first using the command from <https://pytorch.org/get-started/locally/>, then
+> run `pip install -e ".[dev]"`. Check with
+> `python -c "import torch; print(torch.cuda.is_available())"`.
+
+### 5. Verify
+
+```bash
 pytest -q                      # ~15 s, no downloads needed
 ```
 
+Datasets are downloaded into `data/` (gitignored) the first time a real run needs them.
+
 ## Run
+
+Make sure the virtual environment is activated first (step 3 above).
 
 ```bash
 # 0) sanity check the whole pipeline in seconds (synthetic data, no download)

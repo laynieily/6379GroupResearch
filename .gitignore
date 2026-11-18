@@ -5,10 +5,11 @@ __pycache__/
 .ipynb_checkpoints/
 
 # data and raw run outputs stay out of git; commit only results/summary/
-data/
+/data/
 results/*
 results_smoke/
 !results/summary/
 *.pt
 *.pth
 wandb/
+.pytest_cache/
